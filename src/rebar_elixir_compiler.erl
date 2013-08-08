@@ -57,8 +57,8 @@ post_compile(Config, AppFile) ->
         true ->
             ActualAppFile = rebar_app_utils:app_src_to_app(AppFile),
             file:delete(ActualAppFile),
-            erase({app_file, ActualAppFile}),
-            rebar_otp_app:compile(Config, AppFile);
+            Config2 = rebar_config:erase_xconf(Config, {appfile, {app_file, ActualAppFile}}),
+            rebar_otp_app:compile(Config2, AppFile);
         false ->
             ok
     end.
